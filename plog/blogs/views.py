@@ -11,3 +11,8 @@ def view_blog(request, blog_id):
 # for viewing user profile
 def view_profile(request, user_id):
     return render(request, 'blogs/profile.html')
+
+# log in template
+
+def login(request):
+    return render(request, 'blogs/login.html')
