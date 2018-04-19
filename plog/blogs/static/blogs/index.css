@@ -58,3 +58,12 @@ body {
   justify-content: space-evenly;
   margin-bottom: 30px;
 }
+
+.content .detail {
+  width: 100%;
+  margin-top: 239px;
+  height: 60px;
+  background: rgba(0, 0, 0, 0.69);
+  padding: 10px;
+  color: white;
+}
