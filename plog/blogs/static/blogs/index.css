@@ -25,6 +25,18 @@ body {
   color: white;
 }
 
+.header .buttons {
+  width: fit-content;
+  float: right;
+  margin-right: 20px;
+  margin-top: -38px;
+}
+
+.footer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .authentication {
   width: 300px;
   margin-left: auto;
@@ -42,7 +54,6 @@ body {
 
 .content {
   width: 1000px;
-  height: 500px;
   margin: 20px auto 20px auto;
 }
 

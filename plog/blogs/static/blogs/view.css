@@ -1,0 +1,35 @@
+.content {
+  height: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.content .profile-info {
+  height: 100%;
+  width: 400px;
+  text-align: center;
+}
+
+.content .profile-info a {
+  color: #4f9a94;
+}
+
+.content .blog-info {
+  height: 100%;
+  width: 600px;
+  padding-top: 20px;
+}
+
+.content .profile-circle {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-color: #4f9a94;
+  margin: 20px auto 20px auto;
+}
+
+.content .blog-image {
+  height: 300px;
+  width: 600px;
+  background-color: gray;
+}
