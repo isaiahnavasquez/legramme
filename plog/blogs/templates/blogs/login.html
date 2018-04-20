@@ -28,11 +28,12 @@
         <p style="color:red;text-align:center">{{ error_message }}</p>
       {% endif %}
       <div class="row">
-        <form class="col s12" action="login.html" method="post">
+        <form class="col s12" action="." method="post">
+          {% csrf_token %}
           <div class="row">
             <div class="input-field col s12">
               <input id="username" type="text" class="validate" name="username">
-              <label for="username">Username</label>
+              <label for="username">Name</label>
             </div>
           </div>
           <div class="row">
