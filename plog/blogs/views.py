@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.urls import reverse
 
 # Create your views here.
 def index(request):
@@ -15,4 +18,15 @@ def view_profile(request, user_id):
 # log in template
 
 def login(request):
-    return render(request, 'blogs/login.html')
+    if request.method == 'POST':
+        return render(request, 'blogs/login.html')
+    else:
+        user = User.objects.create_user(request.POST['username'], '', request.POST['password'])
+        user.save()
+        return HttpResponseRedirect(reverse('blogs:home'))
+
+def home(request):
+    if not request.user.is_authenticated:
+        return render(request, 'blogs/home.html')
+    else:
+        return render(request, 'blogs/login.html', {'error_message': 'Please Log in to continue'})

@@ -10,7 +10,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'blogs/index.css' %}">
-    <link rel="stylesheet" href="{% static 'blogs/login.css' %}">
+    <link rel="stylesheet" href="{% static 'blogs/profile.css' %}">
   </head>
   <body>
     <!-- Header -->
@@ -23,33 +23,10 @@
     </div>
 
     <div class="content">
-      <h3 style="text-align:center">Login</h3>
-      {% if error_message %}
-        <p style="color:red;text-align:center">{{ error_message }}</p>
-      {% endif %}
-      <div class="row">
-        <form class="col s12" action="login.html" method="post">
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="username" type="text" class="validate" name="username">
-              <label for="username">Username</label>
-            </div>
-          </div>
-          <div class="row">
-            <div class="input-field col s12">
-              <input id="password" type="password" class="validate" name="password">
-              <label for="password">Password</label>
-            </div>
-          </div>
-          <div class="wrapper">
-            <button type="submit" class="btn waves-effect waves-light" name="button">Login</button>
-          </div>
-        </form>
-      </div>
+      <h3>Welcome to home</h3>
     </div>
 
     <!-- Footer -->
-    <br><br>
     <div class="footer">All Rights Reserved. Charot.</div>
   </body>
 </html>
