@@ -10,7 +10,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'blogs/index.css' %}">
-    <link rel="stylesheet" href="{% static 'blogs/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'blogs/home.css' %}">
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   </head>
   <body>
     <!-- Header -->
@@ -29,13 +30,66 @@
     </div>
 
     <div class="content">
-      <h3>Welcome to home</h3>
       {% if message %}
         <p style="text-align:center">{{ message }}</p>
       {% endif %}
+      <div class="container">
+        <div class="row">
+          <div class="col s4 profile-info">
+            <div class="profile-circle"></div>
+            <h5>@taylorswift_13</h5>
+            <br> <hr style="width:100px"> <br>
+            <a href="#">< 1986 ></a><br>
+            <a href="#">< Reputation ></a><br>
+            <a href="#">< Red ></a><br>
+            <a href="#">< Speak Now ></a><br>
+          </div>
+          <div class="col s8">
+            <h4>Post a Blog</h4>
+            <div class="row">
+              <form class="col s12">
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="title" type="text" class="validate" placeholder="A great title">
+                    <label for="title">Title</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <textarea id="blogBody" class="materialize-textarea" placeholder="Lorem Ipsum" name="blog_body" data-length="500"></textarea>
+                    <label for="blogBody">Body</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <select>
+                      <option value="" disabled selected>Choose your option</option>
+                      <option value="1">Hypebeast</option>
+                      <option value="1">Mema</option>
+                      <option value="1">YellowTards</option>
+                      <option value="1">Your Road</option>
+                    </select>
+                    <label>Category</label>
+                  </div>
+                </div>
+                <div class="wrapper">
+                  <button class="btn waves-effect waves-light" type="submit" name="action">Post</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Footer -->
-    <div class="footer">All Rights Reserved. Charot.</div>
+    <!-- <div class="footer">All Rights Reserved. Charot.</div> -->
   </body>
+  <script type="text/javascript">
+    M.textareaAutoResize($('#blogBody'));
+
+    var elem = document.querySelector('select');
+    var instance = M.FormSelect.init(elem, {});
+
+  </script>
 </html>

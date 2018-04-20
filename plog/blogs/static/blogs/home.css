@@ -1,0 +1,19 @@
+.content .profile-circle {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-color: #4f9a94;
+  margin: 20px auto 20px auto;
+}
+
+.content .profile-info {
+  text-align: center;
+}
+
+.wrapper {
+  text-align: right;
+}
+
+.content a {
+  color: #4f9a94;
+}

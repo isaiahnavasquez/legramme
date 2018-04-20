@@ -25,7 +25,7 @@ def login_user(request):
         # import pdb; pdb.set_trace()
         if user is not None:
             login(request, user)
-            return render(request, 'blogs/home.html')
+            return HttpResponseRedirect(reverse('blogs:home'))
         else:
             return render(request, 'blogs/login.html', {
                 'error_message': 'Invalid Credentials. Please Try Again.'
@@ -46,7 +46,7 @@ def register(request):
 
 # gets the account profile for adding/editing blogs
 def home(request):
-    if not request.user.is_authenticated:
+    if request.user.is_authenticated:
         return render(request, 'blogs/home.html')
     else:
         return render(request, 'blogs/login.html', {'error_message': 'Please Log in to continue'})
