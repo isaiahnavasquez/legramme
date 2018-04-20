@@ -16,10 +16,16 @@
     <!-- Header -->
     <div class="header">
       <p class="title">Blogs</p>
-      <div class="buttons">
-        <a class="waves-effect waves-teal btn-flat">Login</a>
-        <a class="waves-effect waves-teal btn-flat">Register</a>
-      </div>
+      {% if user.is_authenticated %}
+        <div class="buttons">
+          <a class="waves-effect waves-teal btn-flat">Logout</a>
+        </div>
+      {% else %}
+        <div class="buttons">
+          <a class="waves-effect waves-teal btn-flat">Login</a>
+          <a class="waves-effect waves-teal btn-flat">Register</a>
+        </div>
+      {% endif %}
     </div>
 
     <div class="content">

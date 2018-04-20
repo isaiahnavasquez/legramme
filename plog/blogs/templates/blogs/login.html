@@ -16,10 +16,6 @@
     <!-- Header -->
     <div class="header">
       <p class="title">Blogs</p>
-      <div class="buttons">
-        <a class="waves-effect waves-teal btn-flat">Login</a>
-        <a class="waves-effect waves-teal btn-flat">Register</a>
-      </div>
     </div>
 
     <div class="content">
@@ -28,7 +24,7 @@
         <p style="color:red;text-align:center">{{ error_message }}</p>
       {% endif %}
       <div class="row">
-        <form class="col s12" action="." method="post">
+        <form class="col s12" action="{% url 'blogs:login' %}" method="post">
           {% csrf_token %}
           <div class="row">
             <div class="input-field col s12">
