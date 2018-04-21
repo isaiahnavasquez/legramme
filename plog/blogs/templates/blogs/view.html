@@ -33,18 +33,22 @@
     <div class="content">
       <!-- <h3 style="text-align:center">Title Kemiroot</h3> -->
       <div class="profile-info">
-        <div class="profile-circle"></div>
-        <h5><a href="#">@{{ author }}</a></h5>
-        <p>{{ about }}</p>
-        <hr style="width:200px;">
-        {% for blog_item in blogs %}
+        <div style="position:sticky;top:100px">
+          <div class="profile-circle"></div>
+          <h5><a href="#">@{{ author }}</a></h5>
+          <p>{{ about }}</p>
+          <hr style="width:200px;">
+          {% for blog_item in blogs %}
           <a href="{% url 'blogs:view_blog' author blog_item.id %}">< {{ blog_item.title }} ></a><br>
-        {% endfor %}
+          {% endfor %}
+        </div>
       </div>
-      <div class="blog-info">
+      <div class="blog-info z-depth-1 paper-material">
         <div class="blog-image"></div>
-        <h3 style="text-align:left">{{ blog_info.title }}</h3>
-        <p>{{ blog_info.content|linebreaksbr }}</p>
+        <div style="padding:20px">
+          <h3 style="text-align:left">{{ blog_info.title }}</h3>
+          <p>{{ blog_info.content|linebreaksbr }}</p>
+        </div>
       </div>
     </div>
 

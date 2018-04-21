@@ -36,14 +36,18 @@
       <div class="container">
         <div class="row">
           <div class="col s4 profile-info">
-            <div class="profile-circle"></div>
-            <h5>{{ user.first_name }}</h5>
-            <br> <hr style="width:100px"> <br>
-            {% for blog in blogs %}
-              <a href="{% url 'blogs:view_blog' user.username blog.id %}">< {{ blog.title }} ></a><br>
-            {% empty %}
-              <p>No blogs yet</p>
-            {% endfor %}
+            <div>
+              <div style="position:sticky;top:100px;">
+                <div class="profile-circle"></div>
+                <h5>{{ user.first_name }}</h5>
+                <br> <hr style="width:100px"> <br>
+                {% for blog in blogs %}
+                <a href="{% url 'blogs:view_blog' user.username blog.id %}">< {{ blog.title }} ></a><br>
+                {% empty %}
+                <p>No blogs yet</p>
+                {% endfor %}
+              </div>
+            </div>
           </div>
           <div class="col s8 z-depth-1 paper-material" style="padding: 20px">
             <h4>Post a Blog</h4>
