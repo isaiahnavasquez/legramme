@@ -18,12 +18,14 @@
       <p class="title"><a href="{% url 'blogs:index' %}">Blogs</a></p>
       {% if user.is_authenticated %}
         <div class="buttons">
-          <a class="waves-effect waves-teal btn-flat">Logout</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:home' %}">Create</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:profile' user.username %}">Profile</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:logout' %}">Logout</a>
         </div>
       {% else %}
         <div class="buttons">
-          <a class="waves-effect waves-teal btn-flat">Login</a>
-          <a class="waves-effect waves-teal btn-flat">Register</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:login' %}">Login</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:register' %}">Register</a>
         </div>
       {% endif %}
     </div>
@@ -32,12 +34,13 @@
       <br>
       <div class="profile-circle"></div>
       <h3>@{{ user_info.username }}</h3>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>{{ about }}</p>
       <br> <hr style="width:300px"> <br>
-      <a href="#">< 1986 ></a><br>
-      <a href="#">< Reputation ></a><br>
-      <a href="#">< Red ></a><br>
-      <a href="#">< Speak Now ></a><br>
+      {% for blog in blogs %}
+        <a href="{% url 'blogs:view_blog' blog.author.username blog.id %}">< {{ blog.title }} ></a><br>
+      {% empty %}
+        <p>No blogs yet</p>
+      {% endfor %}
     </div>
 
     <!-- Footer -->

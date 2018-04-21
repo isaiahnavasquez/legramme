@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout, login
@@ -15,7 +15,6 @@ def index(request):
     else:
         return render(request, 'blogs/index.html')
 
-
 # for viewing blog
 def view_blog(request, blog_id):
     return render(request, 'blogs/view.html')
@@ -23,7 +22,13 @@ def view_blog(request, blog_id):
 # for viewing user profile
 def view_profile(request, user_name):
     user_info = get_object_or_404(User, username=user_name)
-    return render(request, 'blogs/profile.html', {'user_info':user_info})
+    blogs = Blog.objects.filter(author=user_info)
+    about = Profile.objects.get(user=user_info)
+    return render(request, 'blogs/profile.html', {
+        'user_info': user_info,
+        'blogs': blogs,
+        'about': about.about,
+    })
 
 # log in
 def login_user(request):
@@ -62,7 +67,10 @@ def register(request):
 # gets the account profile for adding/editing blogs
 def home(request):
     if request.user.is_authenticated:
-        return render(request, 'blogs/home.html')
+        blogs = Blog.objects.filter(author=request.user)
+        return render(request, 'blogs/home.html', {
+            'blogs': blogs
+        })
     else:
         return render(request, 'blogs/login.html', {'error_message': 'Please Log in to continue'})
 
@@ -77,7 +85,14 @@ def post_blog(request):
     category = get_object_or_404(Category, name=request.POST['category'])
     blog = Blog(title=title, content=body, category=category, author=user, pub_date=timezone.now())
     blog.save()
-    return HttpResponseRedirect(reverse('blogs:view_blog', args=(blog.id,)))
+    return HttpResponseRedirect(reverse('blogs:view_blog', args=(user.username,blog.id)))
 
-def view_blog(request, blog_id):
-    return render(request, 'blogs/view.html', {'blog_id': blog_id})
+def view_blog(request, user_name, blog_id):
+    user_info = get_object_or_404(User, username=user_name)
+    blogs = Blog.objects.filter(author=user_info)
+    return render(request, 'blogs/view.html', {
+        'blog_info': get_object_or_404(Blog, pk=blog_id),
+        'author': user_name,
+        'blogs': blogs,
+        'about': get_object_or_404(Profile, user=user_info).about,
+    })

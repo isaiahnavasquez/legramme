@@ -17,6 +17,7 @@
       <p class="title"><a href="{% url 'blogs:index' %}">Blogs</a></p>
       {% if user.is_authenticated %}
         <div class="buttons">
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:profile' user.username %}">Profile</a>
           <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:logout' %}">Logout</a>
         </div>
       {% endif %}
@@ -35,11 +36,11 @@
       <div class="authentication">
         <br>
         <div class="profile-circle"></div>
-        <h4 text-align="center">@{{ user.username }}</h4>
+        <h4 text-align="center">{{ user.first_name }}</h4>
+        <h6 text-align="center">@{{ user.username }}</h6>
         <p>{{ about_text }}</p>
       </div>
       <div class="buttons">
-        <a href="{% url 'blogs:profile' user.username %}" class="waves-effect waves-light btn teal lighten-4">Profile</a>
         <a href="{% url 'blogs:home' %}" class="waves-effect waves-light btn teal lighten-4">Add Blog</a>
       </div><br>
     {% endif %}

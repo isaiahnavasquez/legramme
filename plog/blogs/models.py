@@ -27,12 +27,3 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
-#
-# def post_save_user_model_receiver(sender, instance, created, *args, **kwargs):
-#     if created:
-#         try:
-#             Profile.objects.create(user=instance)
-#         except:
-#             pass
-#
-# post_save.connect(post_save_user_model_receiver, sender=settings.AUTH_USER_MODEL)
