@@ -4,14 +4,12 @@
   <head>
     <meta charset="utf-8">
     <title>Plogs - Picture Logs</title>
-    <!-- Compiled and minified CSS -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
-    <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'blogs/index.css' %}">
     <link rel="stylesheet" href="{% static 'blogs/home.css' %}">
-    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   </head>
   <body>
     <!-- Header -->
@@ -47,27 +45,24 @@
           <div class="col s8">
             <h4>Post a Blog</h4>
             <div class="row">
-              <form class="col s12">
+              <form class="col s12" action="{% url 'blogs:post_blog' %}" method="post">
+                {% csrf_token %}
                 <div class="row">
                   <div class="input-field col s12">
-                    <input id="title" type="text" class="validate" placeholder="A great title">
+                    <input id="title" type="text" class="validate" placeholder="A great title" name='title'>
                     <label for="title">Title</label>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
-                    <textarea id="blogBody" class="materialize-textarea" placeholder="Lorem Ipsum" name="blog_body" data-length="500"></textarea>
+                    <textarea id="blogBody" name='blog_body' class="materialize-textarea" placeholder="Lorem Ipsum" name="blog_body" data-length="500"></textarea>
                     <label for="blogBody">Body</label>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
-                    <select>
+                    <select id="categories" name='category'>
                       <option value="" disabled selected>Choose your option</option>
-                      <option value="1">Hypebeast</option>
-                      <option value="1">Mema</option>
-                      <option value="1">YellowTards</option>
-                      <option value="1">Your Road</option>
                     </select>
                     <label>Category</label>
                   </div>
@@ -90,6 +85,19 @@
 
     var elem = document.querySelector('select');
     var instance = M.FormSelect.init(elem, {});
+
+    categories = [
+      'Technology',
+      'Entertainment'
+    ]
+
+    for(i = 0; i < categories.length; i++){
+      $('#categories').append("<option value='" + categories[i] + "'>" + categories[i] + "</option>");
+    }
+
+    $(document).ready(function(){
+      $('select').formSelect();
+    });
 
   </script>
 </html>

@@ -1,8 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout, login
 from django.urls import reverse
+from django.utils import timezone
+
+from .models import Category, Blog
 
 # Create your views here.
 def index(request):
@@ -54,3 +57,15 @@ def home(request):
 def logout_user(request):
     logout(request)
     return render(request, 'blogs/index.html')
+
+def post_blog(request):
+    user = request.user
+    title = request.POST['title']
+    body = request.POST['blog_body']
+    category = get_object_or_404(Category, name=request.POST['category'])
+    blog = Blog(title=title, content=body, category=category, author=user, pub_date=timezone.now())
+    blog.save()
+    return HttpResponseRedirect(reverse('blogs:view_blog', args=(blog.id,)))
+
+def view_blog(request, blog_id):
+    return render(request, 'blogs/view.html', {'blog_id': blog_id})

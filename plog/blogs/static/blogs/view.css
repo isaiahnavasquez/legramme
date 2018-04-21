@@ -1,3 +1,8 @@
+.header a {
+  color: white;
+  text-decoration: none; /* no underline */
+}
+
 .content {
   height: 1000px;
   display: flex;
