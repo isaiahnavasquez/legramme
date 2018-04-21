@@ -69,7 +69,7 @@
           <div class="grid grid-author">
             <div class="image-circle z-depth-1">
             </div>
-            <p>{{ user.first_name }}</p>
+            <p><a href="{% url 'blogs:profile' user.username %}">{{ user.first_name }}</a></p>
             <small style="margin-top:-20px;">{{ user.profile.about }}</small>
           </div>
         {% empty %}
