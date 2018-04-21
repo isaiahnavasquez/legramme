@@ -5,11 +5,16 @@ from django.contrib.auth import authenticate, logout, login
 from django.urls import reverse
 from django.utils import timezone
 
-from .models import Category, Blog
+from .models import Category, Blog, Profile
 
 # Create your views here.
 def index(request):
-    return render(request, 'blogs/index.html')
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user=request.user)
+        return render(request, 'blogs/index.html', {'about_text': profile.about})
+    else:
+        return render(request, 'blogs/index.html')
+
 
 # for viewing blog
 def view_blog(request, blog_id):
@@ -43,9 +48,12 @@ def register(request):
     if request.method == 'GET':
         return render(request, 'blogs/register.html')
     if request.method == 'POST':
+        # import pdb; pdb.set_trace()
         user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
+        profile = Profile(user=user, about=request.POST['about'])
         user.first_name = request.POST['name']
         user.save()
+        profile.save()
         login(request, user)
         return render(request, 'blogs/home.html', {
             'message': 'Thanks for joining, %s' % user.first_name

@@ -15,6 +15,11 @@
     <!-- Header -->
     <div class="header">
       <p class="title"><a href="{% url 'blogs:index' %}">Blogs</a></p>
+      {% if user.is_authenticated %}
+        <div class="buttons">
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:logout' %}">Logout</a>
+        </div>
+      {% endif %}
     </div>
 
     {% if not user.is_authenticated %}
@@ -31,7 +36,7 @@
         <br>
         <div class="profile-circle"></div>
         <h4 text-align="center">@{{ user.username }}</h4>
-        <p>Bachelor of Science in Reputation</p>
+        <p>{{ about_text }}</p>
       </div>
       <div class="buttons">
         <a href="{% url 'blogs:profile' user.username %}" class="waves-effect waves-light btn teal lighten-4">Profile</a>
