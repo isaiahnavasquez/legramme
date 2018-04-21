@@ -8,12 +8,22 @@ from django.utils import timezone
 from .models import Category, Blog, Profile
 
 # Create your views here.
+blogs = Blog.objects.all()
+users = User.objects.all()
+
 def index(request):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
-        return render(request, 'blogs/index.html', {'about_text': profile.about})
+        return render(request, 'blogs/index.html', {
+            'about_text': profile.about,
+            'blogs': blogs,
+            'users': users,
+        })
     else:
-        return render(request, 'blogs/index.html')
+        return render(request, 'blogs/index.html', {
+            'blogs': blogs,
+            'users': users,
+        })
 
 # for viewing blog
 def view_blog(request, blog_id):
@@ -42,7 +52,7 @@ def login_user(request):
         # import pdb; pdb.set_trace()
         if user is not None:
             login(request, user)
-            return HttpResponseRedirect(reverse('blogs:home'))
+            return HttpResponseRedirect(reverse('blogs:index'))
         else:
             return render(request, 'blogs/login.html', {
                 'error_message': 'Invalid Credentials. Please Try Again.'
@@ -76,7 +86,10 @@ def home(request):
 
 def logout_user(request):
     logout(request)
-    return render(request, 'blogs/index.html')
+    return render(request, 'blogs/index.html', {
+        'blogs': blogs,
+        'users': users,
+    })
 
 def post_blog(request):
     user = request.user

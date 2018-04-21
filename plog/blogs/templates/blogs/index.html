@@ -26,7 +26,8 @@
     {% if not user.is_authenticated %}
       <div class="authentication">
         <br>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+        <h6>Welcome to Blogs</h6>
+        <p><small>Where things that matter are shared.</small></p>
         <div class="buttons">
           <a href="{% url 'blogs:login' %}" class="waves-effect waves-light btn teal lighten-4">Login</a>
           <a href="{% url 'blogs:register' %}" class="waves-effect waves-light btn teal lighten-4">Register</a>
@@ -46,65 +47,34 @@
     {% endif %}
 
     <div class="content">
-      <div class="tile">
-        <div class="grid">
-          <div class="detail">
-            Lorem Ipsum <br>
-            @skemi
+      <br> <hr>
+      <h3>Editor's Choice</h3>
+      <div class="wrapper">
+        {% for blog in blogs|dictsortreversed:"pub_date"|slice:":4" %}
+          <div class="grid">
+            <div class="image z-depth-1">
+            </div>
+            <p><a href="{% url 'blogs:view_blog' blog.author blog.id %}">{{ blog.title }}</a></p>
+            <small style="margin-top:-20px;">{{ blog.content|slice:":100" }}...</small>
           </div>
-        </div>
-        <div class="grid">
-          <div class="detail">
-            Lorem Ipsum <br>
-            @skemi
-          </div>
-        </div>
-        <div class="grid">
-          <div class="detail">
-            Lorem Ipsum <br>
-            @skemi
-          </div>
-        </div>
+        {% empty %}
+          <h5 style="margin: 0 auto">{ No Blogs Yet }</h5>
+        {% endfor %}
       </div>
-      <div class="tile">
-        <div class="grid">
-          <div class="detail">
-            Lorem Ipsum <br>
-            @skemi
+
+      <br><br><br> <hr>
+      <h3>Recent Authors</h3>
+      <div class="wrapper">
+        {% for user in users|dictsortreversed:"date_joined"|slice:":4" %}
+          <div class="grid grid-author">
+            <div class="image-circle z-depth-1">
+            </div>
+            <p>{{ user.first_name }}</p>
+            <small style="margin-top:-20px;">{{ user.profile.about }}</small>
           </div>
-        </div>
-        <div class="grid">
-          <div class="detail">
-            Lorem Ipsum <br>
-            @skemi
-          </div>
-        </div>
-        <div class="grid">
-          <div class="detail">
-            Lorem Ipsum <br>
-            @skemi
-          </div>
-        </div>
-      </div>
-      <div class="tile">
-        <div class="grid">
-          <div class="detail">
-            Lorem Ipsum <br>
-            @skemi
-          </div>
-        </div>
-        <div class="grid">
-          <div class="detail">
-            Lorem Ipsum <br>
-            @skemi
-          </div>
-        </div>
-        <div class="grid">
-          <div class="detail">
-            Lorem Ipsum <br>
-            @skemi
-          </div>
-        </div>
+        {% empty %}
+          <h5 style="margin: 0 auto">{ No Blogs Yet }</h5>
+        {% endfor %}
       </div>
     </div>
 

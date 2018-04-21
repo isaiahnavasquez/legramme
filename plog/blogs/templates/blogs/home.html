@@ -45,7 +45,7 @@
               <p>No blogs yet</p>
             {% endfor %}
           </div>
-          <div class="col s8">
+          <div class="col s8 z-depth-1 paper-material" style="padding: 20px">
             <h4>Post a Blog</h4>
             <div class="row">
               <form class="col s12" action="{% url 'blogs:post_blog' %}" method="post">
@@ -70,7 +70,7 @@
                     <label>Category</label>
                   </div>
                 </div>
-                <div class="wrapper">
+                <div class="wrapper-btn">
                   <button class="btn waves-effect waves-light" type="submit" name="action">Post</button>
                 </div>
               </form>
