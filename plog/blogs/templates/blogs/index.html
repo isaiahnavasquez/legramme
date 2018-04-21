@@ -14,10 +14,10 @@
   <body>
     <!-- Header -->
     <div class="header">
-      <p class="title">Blogs</p>
+      <p class="title"><a href="{% url 'blogs:index' %}">Blogs</a></p>
     </div>
 
-    {% if user.is_authenticated %}
+    {% if not user.is_authenticated %}
       <div class="authentication">
         <br>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
@@ -26,6 +26,17 @@
           <a href="{% url 'blogs:register' %}" class="waves-effect waves-light btn teal lighten-4">Register</a>
         </div><br>
       </div>
+    {% else %}
+      <div class="authentication">
+        <br>
+        <div class="profile-circle"></div>
+        <h4 text-align="center">@{{ user.username }}</h4>
+        <p>Bachelor of Science in Reputation</p>
+      </div>
+      <div class="buttons">
+        <a href="{% url 'blogs:profile' user.username %}" class="waves-effect waves-light btn teal lighten-4">Profile</a>
+        <a href="{% url 'blogs:home' %}" class="waves-effect waves-light btn teal lighten-4">Add Blog</a>
+      </div><br>
     {% endif %}
 
     <div class="content">

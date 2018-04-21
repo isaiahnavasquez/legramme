@@ -1,3 +1,8 @@
+.header a {
+  color: white;
+  text-decoration: none; /* no underline */
+}
+
 .content .profile-circle {
   height: 100px;
   width: 100px;

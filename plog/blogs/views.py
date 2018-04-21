@@ -16,13 +16,17 @@ def view_blog(request, blog_id):
     return render(request, 'blogs/view.html')
 
 # for viewing user profile
-def view_profile(request, user_id):
-    return render(request, 'blogs/profile.html')
+def view_profile(request, user_name):
+    user_info = get_object_or_404(User, username=user_name)
+    return render(request, 'blogs/profile.html', {'user_info':user_info})
 
 # log in
 def login_user(request):
     if request.method == 'GET':
-        return render(request, 'blogs/login.html')
+        if request.user.is_authenticated:
+            return render(request, 'blogs/home.html')
+        else:
+            return render(request, 'blogs/login.html')
     if request.method == 'POST':
         user = authenticate(username=request.POST['username'], password=request.POST['password'])
         # import pdb; pdb.set_trace()
