@@ -21,6 +21,8 @@
 .content .blog-info {
   width: 600px;
   margin-top: 20px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  border-radius: 5px;
 }
 
 .content .profile-circle {
@@ -34,5 +36,13 @@
 .content .blog-image {
   height: 300px;
   width: 100%;
-  background-color: gray;
+}
+
+.parallax-container {
+  height: 300px;
+}
+
+.blog-content {
+  background-color: white;
+  border-radius: 5px;
 }
