@@ -6,6 +6,7 @@ from django.conf import settings
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    default_pic = models.ImageField(upload_to='images/profiles/', default='images/default/empty-profile.png')
     about = models.CharField(max_length=100)
 
     def __str__(self):
@@ -24,6 +25,7 @@ class Blog(models.Model):
     pub_date = models.DateTimeField('date published')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    cover_photo = models.ImageField(upload_to='images/blog_covers', default='images/default/cover_default.jpg')
 
     def __str__(self):
         return self.title

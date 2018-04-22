@@ -38,7 +38,9 @@
           <div class="col s4 profile-info">
             <div>
               <div style="position:sticky;top:100px;">
-                <div class="profile-circle"></div>
+                <div class="profile-circle">
+                  <img src="{{ user.profile.default_pic.url }}" alt="">
+                </div>
                 <h5>{{ user.first_name }}</h5>
                 <br> <hr style="width:100px"> <br>
                 {% for blog in blogs %}

@@ -32,7 +32,9 @@
 
     <div class="content">
       <br>
-      <div class="profile-circle"></div>
+      <div class="profile-circle">
+        <img src="{{ user_info.profile.default_pic.url }}" alt="">
+      </div>
       <h3>@{{ user_info.username }}</h3>
       <p>{{ about }}</p>
       <br> <hr style="width:300px"> <br>

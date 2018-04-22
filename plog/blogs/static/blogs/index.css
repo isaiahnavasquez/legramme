@@ -89,6 +89,12 @@ body {
   border-radius: 10px;
 }
 
+.content .grid .image img {
+  height: 150px;
+  width: 100%;
+  border-radius: 10px;
+}
+
 .content .grid-author {
   text-align: center;
 }
@@ -98,6 +104,12 @@ body {
   height: 100px;
   width: 100px;
   margin: 0 auto 10px auto;
+  border-radius: 50%;
+}
+
+.content .grid .image-circle img {
+  height: 100px;
+  width: 100px;
   border-radius: 50%;
 }
 
@@ -119,6 +131,12 @@ body {
   border-radius: 50%;
   background-color: #4f9a94;
   margin: 20px auto 20px auto;
+}
+
+.profile-circle img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
 }
 
 .buttons {

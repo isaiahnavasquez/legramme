@@ -36,7 +36,9 @@
     {% else %}
       <div class="authentication">
         <br>
-        <div class="profile-circle"></div>
+        <div class="profile-circle">
+          <img src="{{ user.profile.default_pic.url }}" alt="">
+        </div>
         <h4 text-align="center">{{ user.first_name }}</h4>
         <h6 text-align="center">@{{ user.username }}</h6>
         <p>{{ about_text }}</p>
@@ -53,6 +55,7 @@
         {% for blog in blogs|dictsortreversed:"pub_date"|slice:":4" %}
           <div class="grid">
             <div class="image z-depth-1">
+              <img src="{{ blog.cover_photo.url }}" alt="">
             </div>
             <p><a href="{% url 'blogs:view_blog' blog.author blog.id %}">{{ blog.title }}</a></p>
             <small style="margin-top:-20px;">{{ blog.content|slice:":100" }}...</small>
@@ -68,6 +71,7 @@
         {% for user in users|dictsortreversed:"date_joined"|slice:":4" %}
           <div class="grid grid-author">
             <div class="image-circle z-depth-1">
+              <img src="{{ user.profile.default_pic.url }}" alt="">
             </div>
             <p><a href="{% url 'blogs:profile' user.username %}">{{ user.first_name }}</a></p>
             <small style="margin-top:-20px;">{{ user.profile.about }}</small>

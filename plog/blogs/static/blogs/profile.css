@@ -16,6 +16,12 @@
   margin: 20px auto 20px auto;
 }
 
+.content .profile-circle img {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+}
+
 .content a {
   color: #4f9a94;
 }
