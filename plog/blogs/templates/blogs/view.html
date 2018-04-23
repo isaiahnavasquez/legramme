@@ -54,7 +54,7 @@
         </div>
         <div style="padding:20px" class="blog-content">
           <h3 style="text-align:left">{{ blog_info.title }}</h3>
-          <p>{{ blog_info.content|linebreaksbr }}</p>
+          <p id="blogContent">{{ blog_info.content|linebreaksbr }}</p>
         </div>
       </div>
     </div>
@@ -71,5 +71,24 @@
     $(document).ready(function(){
       $('.parallax').parallax();
     });
+
+    function hashtag() {
+      content = $('#blogContent').text();
+      console.log(content);
+      words = content.split(' ');
+      output = '';
+      for(word in words){
+        word = words[word]
+        if (word[0] == '#') {
+          tag = '<a href=\'' + 'blogs/tags/' + word.slice(1,) + '\'>' + word + '</a>'
+          output += tag + ' '
+        } else {
+          output += word + ' '
+        }
+      }
+      $('#blogContent').html(output);
+    }
+
+    $('#blogContent').ready(hashtag());
   </script>
 </html>

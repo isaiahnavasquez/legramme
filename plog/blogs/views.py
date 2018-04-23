@@ -30,6 +30,9 @@ def index(request):
 def view_blog(request, blog_id):
     return render(request, 'blogs/view.html')
 
+def hashtag(request):
+    pass
+
 # for viewing user profile
 def view_profile(request, user_name):
     user_info = get_object_or_404(User, username=user_name)
