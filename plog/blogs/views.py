@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout, login
 from django.urls import reverse
 from django.utils import timezone
+from django.core.files.storage import FileSystemStorage
 
 from .models import Category, Blog, Profile
 
@@ -97,6 +98,12 @@ def post_blog(request):
     body = request.POST['blog_body']
     category = get_object_or_404(Category, name=request.POST['category'])
     blog = Blog(title=title, content=body, category=category, author=user, pub_date=timezone.now())
+    # import pdb; pdb.set_trace()
+    if 'cover_photo' in request.FILES:
+        cover_photo = request.FILES['cover_photo']
+        fs = FileSystemStorage()
+        filename = fs.save(cover_photo.name, cover_photo)
+        blog.cover_photo = cover_photo
     blog.save()
     return HttpResponseRedirect(reverse('blogs:view_blog', args=(user.username,blog.id)))
 
