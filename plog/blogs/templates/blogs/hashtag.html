@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>Plogs - Picture Logs</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blogs/index.css' %}">
+    <link rel="stylesheet" href="{% static 'blogs/hashtag.css' %}">
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <p class="title"><a href="{% url 'blogs:index' %}">Blogs</a></p>
+      {% if user.is_authenticated %}
+        <div class="buttons">
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:home' %}">Create</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:profile' user.username %}">Profile</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:logout' %}">Logout</a>
+        </div>
+      {% else %}
+        <div class="buttons">
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:login' %}">Login</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:register' %}">Register</a>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="content">
+      <h2 class="title">Blogs</h2>
+      {% for blog in blogs %}
+        <div class="paper-item">
+          <h5><a href="{% url 'blogs:view_blog' blog.author blog.id %}">{{ blog.title }}</a></h5>
+          <small>by @ {{ blog.author }}</small>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Footer -->
+    <!-- <div class="footer">All Rights Reserved. Charot.</div> -->
+  </body>
+  <script type="text/javascript">
+
+
+  </script>
+</html>

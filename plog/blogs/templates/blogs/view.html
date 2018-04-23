@@ -65,6 +65,7 @@
   <script type="text/javascript">
     var elem = document.querySelector('.parallax');
     var instance = M.Parallax.init(elem, {});
+    var url = "{% url 'blogs:hashtag' 'hello' %}"
 
     // Or with jQuery
 
@@ -80,10 +81,10 @@
       for(word in words){
         word = words[word]
         if (word[0] == '#') {
-          tag = '<a href=\'' + 'blogs/tags/' + word.slice(1,) + '\'>' + word + '</a>'
-          output += tag + ' '
+          tag = '<a href=\'' + url.replace('hello', word.slice(1,)) + '\'>' + word + '</a>';
+          output += tag + ' ';
         } else {
-          output += word + ' '
+          output += word + ' ';
         }
       }
       $('#blogContent').html(output);

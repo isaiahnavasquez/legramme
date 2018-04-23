@@ -1,0 +1,16 @@
+.paper-item {
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  padding: 20px;
+  margin: 20px;
+  border-radius: 5px;
+}
+
+.content .title {
+  text-align: center;
+}
+
+.content h5 {
+  margin: 0;
+  color: #4f9a94;
+}

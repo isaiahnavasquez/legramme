@@ -30,8 +30,13 @@ def index(request):
 def view_blog(request, blog_id):
     return render(request, 'blogs/view.html')
 
-def hashtag(request):
-    pass
+def hashtag(request, hashtag_name):
+    hashtag = Hashtag.objects.get(name=hashtag_name)
+    blogs = hashtag.blog.all()
+
+    return render(request, 'blogs/hashtag.html', {
+        'blogs': blogs
+    })
 
 # for viewing user profile
 def view_profile(request, user_name):
@@ -125,9 +130,13 @@ def post_blog(request):
     for tag in tags:
         print(tags)
         print(blog)
-        hashtag = Hashtag(name=tag[1:])
-        hashtag.save()
-        blog.hashtag_set.add(hashtag)
+        if Hashtag.objects.filter(name=tag[1:]).count() == 0:
+            hashtag = Hashtag(name=tag[1:])
+            hashtag.save()
+        else:
+            hashtag = Hashtag.objects.get(name=tag[1:])
+
+        hashtag.blog.add(blog)
 
     return HttpResponseRedirect(reverse('blogs:view_blog', args=(user.username,blog.id)))
 
