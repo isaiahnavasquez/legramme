@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <title>Plogs - Picture Logs</title>
     <!-- Compiled and minified CSS -->
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
@@ -35,17 +36,65 @@
       <div class="profile-circle">
         <img src="{{ user_info.profile.default_pic.url }}" alt="">
       </div>
+      <!-- Modal Trigger -->
+      <a class="waves-effect waves-light btn modal-trigger upload-button" href="#editProfilePhoto">Change</a>
       <h3>@{{ user_info.username }}</h3>
       <p>{{ about }}</p>
       <br> <hr style="width:300px"> <br>
       {% for blog in blogs %}
-        <a href="{% url 'blogs:view_blog' blog.author.username blog.id %}">< {{ blog.title }} ></a><br>
+        <a href="{% url 'blogs:view_blog' blog.author.username blog.id %}" class="blog-link">< {{ blog.title }} ></a><br>
       {% empty %}
         <p>No blogs yet</p>
       {% endfor %}
     </div>
 
+    <!-- Modal Structure -->
+    <div id="editProfilePhoto" class="modal">
+      <div class="modal-content">
+        <div class="row">
+          <form class="col s12" action="{% url 'blogs:upload_profile_photo' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col s12 profile-image" style="padding:0;">
+                <img id="profilePhoto">
+              </div>
+              <h6 style="padding-left:10px;">Upload a Profile Photo</h6>
+              <div class="file-field input-field" style="padding:10px;">
+                <div class="btn">
+                  <span>Select</span>
+                  <input type="file" id="fileSelector" onchange="displayImage(this)" name="profile_photo">
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+              </div>
+            </div>
+            <div class="wrapper-btn">
+              <button class="btn waves-effect waves-light" type="submit" name="action">Post</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <!-- Footer -->
     <div class="footer">All Rights Reserved. Charot.</div>
   </body>
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $('.modal').modal();
+    });
+
+    function displayImage(input) {
+      if (input.files && input.files[0]){
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('#profilePhoto').attr('src', e.target.result)
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
 </html>

@@ -41,6 +41,17 @@ def view_profile(request, user_name):
         'about': about.about,
     })
 
+def upload_profile_photo(request):
+    user = request.user
+    profile = get_object_or_404(Profile, user=user)
+    if 'profile_photo' in request.FILES:
+        profile_photo = request.FILES['profile_photo']
+        fs = FileSystemStorage()
+        fs.save(profile_photo.name, profile_photo)
+        profile.default_pic = profile_photo
+        profile.save()
+    return HttpResponseRedirect(reverse('blogs:profile', args=(user.username,)))
+
 # log in
 def login_user(request):
     if request.method == 'GET':
@@ -64,7 +75,6 @@ def register(request):
     if request.method == 'GET':
         return render(request, 'blogs/register.html')
     if request.method == 'POST':
-        # import pdb; pdb.set_trace()
         user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
         profile = Profile(user=user, about=request.POST['about'])
         user.first_name = request.POST['name']
@@ -98,7 +108,6 @@ def post_blog(request):
     body = request.POST['blog_body']
     category = get_object_or_404(Category, name=request.POST['category'])
     blog = Blog(title=title, content=body, category=category, author=user, pub_date=timezone.now())
-    # import pdb; pdb.set_trace()
     if 'cover_photo' in request.FILES:
         cover_photo = request.FILES['cover_photo']
         fs = FileSystemStorage()
