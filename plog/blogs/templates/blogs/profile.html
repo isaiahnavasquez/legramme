@@ -36,8 +36,10 @@
       <div class="profile-circle">
         <img src="{{ user_info.profile.default_pic.url }}" alt="">
       </div>
-      <!-- Modal Trigger -->
-      <a class="waves-effect waves-light btn modal-trigger upload-button" href="#editProfilePhoto">Change</a>
+      {% if user_info.username == user.username%}
+        <!-- Modal Trigger -->
+        <a class="waves-effect waves-light btn modal-trigger upload-button" href="#editProfilePhoto">Change</a>
+      {% endif %}
       <h3>@{{ user_info.username }}</h3>
       <p>{{ about }}</p>
       <br> <hr style="width:300px"> <br>
