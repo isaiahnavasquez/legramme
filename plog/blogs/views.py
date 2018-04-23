@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 from django.core.files.storage import FileSystemStorage
 
-from .models import Category, Blog, Profile
+from .models import Category, Blog, Profile, Hashtag
 
 # Create your views here.
 blogs = Blog.objects.all()
@@ -108,12 +108,24 @@ def post_blog(request):
     body = request.POST['blog_body']
     category = get_object_or_404(Category, name=request.POST['category'])
     blog = Blog(title=title, content=body, category=category, author=user, pub_date=timezone.now())
+
+    # save cover image
     if 'cover_photo' in request.FILES:
         cover_photo = request.FILES['cover_photo']
         fs = FileSystemStorage()
         filename = fs.save(cover_photo.name, cover_photo)
         blog.cover_photo = cover_photo
+
+    # save hashtags
     blog.save()
+    tags = [i for i in body.split() if i[0] == '#']
+    for tag in tags:
+        print(tags)
+        print(blog)
+        hashtag = Hashtag(name=tag[1:])
+        hashtag.save()
+        blog.hashtag_set.add(hashtag)
+
     return HttpResponseRedirect(reverse('blogs:view_blog', args=(user.username,blog.id)))
 
 def view_blog(request, user_name, blog_id):

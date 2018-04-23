@@ -29,3 +29,10 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
+
+class Hashtag(models.Model):
+    name = models.CharField(max_length=50)
+    blog = models.ManyToManyField(Blog)
+
+    def __str__(self):
+        return self.name
