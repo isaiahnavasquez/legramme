@@ -125,6 +125,20 @@ body {
   text-align: center;
 }
 
+.content .search-field {
+  width: 300px;
+  margin: 0 auto;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  padding: 5px 10px;
+  border-radius: 2px;
+}
+
+.content .search-field input {
+  margin: 0;
+  margin-bottom: -5px;
+}
+
 .profile-circle {
   height: 100px;
   width: 100px;

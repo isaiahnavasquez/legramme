@@ -4,6 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title>Plogs - Picture Logs</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
     <!-- Compiled and minified JavaScript -->
@@ -49,7 +50,26 @@
     {% endif %}
 
     <div class="content">
-      <br> <hr>
+      <h5 style="text-align:center">Go, Search for it</h5>
+      <div class="search-field">
+        <form method="post" id="searchForm" data-search-text="{% url 'blogs:search_site' %}">
+          {% csrf_token %}
+          <input name="search_text" type="text" id="search">
+        </form>
+      </div>
+      <div class="results" style="text-align:center" id="results">
+        <div class="results-data" id="resultsBlogs">
+
+        </div>
+        <div class="results-data" id="resultsTags">
+
+        </div>
+        <div class="results-data" id="resultsUsers">
+
+        </div>
+      </div>
+
+      <br><br>
       <h3>Editor's Choice</h3>
       <div class="wrapper">
         {% for blog in blogs|dictsortreversed:"pub_date"|slice:":4" %}
@@ -85,4 +105,75 @@
     <!-- Footer -->
     <div class="footer">All Rights Reserved. Charot.</div>
   </body>
+  <script type="text/javascript">
+    form = $('#searchForm');
+    $('#results').hide()
+
+    $('#search').bind('input', function() {
+      text = $(this).val()
+
+      if (text.length > 0) {
+        $('#results').show()
+      } else {
+        $('#results').hide()
+      }
+
+      $.ajax({
+        url: form.attr('data-search-text'),
+        data: form.serialize(),
+        dataType: 'json',
+        success: function(data) {
+          resultsBlogs = $('#resultsBlogs')
+          resultsTags = $('#resultsTags')
+          resultsUsers = $('#resultsUsers')
+
+          if (data['blogs_title'].length > 0) {
+            resultsBlogs.show()
+            resultsBlogs.empty()
+            resultsBlogs.append("<h5>Blogs</h5>")
+            for(index in data['blogs_title']) {
+              title = data['blogs_title'][index].title
+              author = data['blogs_title'][index].author
+              id = data['blogs_title'][index].id
+              url = "{% url 'blogs:view_blog' 'hello' 1 %}"
+              url = url.replace('hello', author)
+              url = url.replace(1, id)
+              resultsBlogs.append("<p><a href='" + url + "'>" + title + "</a></p>")
+            }
+          } else {
+            $('#resultsBlogs').hide()
+          }
+
+          if (data['tags_name'].length > 0) {
+            resultsTags.show()
+            resultsTags.empty()
+            resultsTags.append("<h5>Hashtags</h5>")
+            for(index in data['tags_name']) {
+              name = data['tags_name'][index].name
+              url = "{% url 'blogs:hashtag' 'hello' %}"
+              url = url.replace('hello', name)
+              resultsTags.append("<p><a href='" + url + "'>" + name + "</a></p>")
+            }
+          } else {
+            $('#resultsTags').hide()
+          }
+
+          if (data['users_username'].length > 0) {
+            resultsUsers.show()
+            resultsUsers.empty()
+            resultsUsers.append("<h5>Users</h5>")
+            for(index in data['users_username']) {
+              username = data['users_username'][index].username
+              url = "{% url 'blogs:profile' 'hello' %}"
+              url = url.replace('hello', username)
+              resultsUsers.append("<p><a href='" + url + "'>@" + username + "</a></p>")
+            }
+          } else {
+            $('#resultsUsers').hide()
+          }
+
+        }
+      })
+    })
+  </script>
 </html>

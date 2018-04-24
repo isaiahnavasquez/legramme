@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout, login
 from django.urls import reverse
 from django.utils import timezone
 from django.core.files.storage import FileSystemStorage
+from django.core import serializers
 
 from .models import Category, Blog, Profile, Hashtag
 
@@ -35,7 +36,8 @@ def hashtag(request, hashtag_name):
     blogs = hashtag.blog.all()
 
     return render(request, 'blogs/hashtag.html', {
-        'blogs': blogs
+        'blogs': blogs,
+        'hashtag_name': hashtag_name
     })
 
 # for viewing user profile
@@ -149,3 +151,37 @@ def view_blog(request, user_name, blog_id):
         'blogs': blogs,
         'about': get_object_or_404(Profile, user=user_info).about,
     })
+
+def search_site(request):
+    text = request.GET['search_text']
+    data = {
+        'blogs_title': [],
+        'tags_name': [],
+        'users_username': [],
+    }
+
+    if len(text) > 0:
+        # result: blogs:title
+        blogs_title = Blog.objects.filter(title__startswith=text)
+        # result: blogs:category
+        blogs_category = Category.objects.filter(name__startswith=text)
+        # result: tags:name
+        tags_name = Hashtag.objects.filter(name__startswith=text)
+        # result: users:username
+        users_username = User.objects.filter(username__startswith=text)
+
+        data = {
+            'blogs_title': [{
+                'title': i.title,
+                'author': i.author.username,
+                'id': i.id
+            } for i in blogs_title],
+            'tags_name': [{
+                'name': i.name
+            } for i in tags_name],
+            'users_username': [{
+                'username': i.username
+            } for i in users_username]
+        }
+
+    return JsonResponse(data)

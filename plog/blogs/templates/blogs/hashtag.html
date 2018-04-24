@@ -30,7 +30,7 @@
     </div>
 
     <div class="content">
-      <h2 class="title">Blogs</h2>
+      <h2 class="title">#{{ hashtag_name }}</h2>
       {% for blog in blogs %}
         <div class="paper-item">
           <h5><a href="{% url 'blogs:view_blog' blog.author blog.id %}">{{ blog.title }}</a></h5>
