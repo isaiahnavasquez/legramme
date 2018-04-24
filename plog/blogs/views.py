@@ -8,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 from django.core import serializers
 
 from .models import Category, Blog, Profile, Hashtag
+from .forms import UserForm
 
 # Create your views here.
 blogs = Blog.objects.all()
@@ -83,17 +84,32 @@ def login_user(request):
 # register an account
 def register(request):
     if request.method == 'GET':
-        return render(request, 'blogs/register.html')
+        form = UserForm()
+        return render(request, 'blogs/register.html', {'form': form})
     if request.method == 'POST':
-        user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
-        profile = Profile(user=user, about=request.POST['about'])
-        user.first_name = request.POST['name']
-        user.save()
-        profile.save()
-        login(request, user)
-        return render(request, 'blogs/home.html', {
-            'message': 'Thanks for joining, %s' % user.first_name
-        })
+        form = UserForm(request.POST)
+
+        if form.is_valid():
+            # check for password mismatch
+            if request.POST['password'] == request.POST['confirm_password']:
+                # check for username duplicates
+                if User.objects.filter(username=request.POST['username']).count() == 0:
+                    user = User.objects.create_user(request.POST['username'], request.POST['email'], request.POST['password'])
+                    profile = Profile(user=user, about=request.POST['about'])
+                    user.first_name = request.POST['name']
+                    user.save()
+                    profile.save()
+                    login(request, user)
+                    return render(request, 'blogs/home.html', {
+                        'message': 'Thanks for joining, %s' % user.first_name
+                    })
+                else:
+                    return render(request, 'blogs/register.html', { 'form': form, 'error_message': 'Username already exists' })
+            else:
+                return render(request, 'blogs/register.html', { 'form': form, 'error_message': 'Passwords do not match' })
+        else:
+            return render(request, 'blogs/register.html', { 'form': form })
+
 
 # gets the account profile for adding/editing blogs
 def home(request):
@@ -107,40 +123,48 @@ def home(request):
 
 def logout_user(request):
     logout(request)
-    return render(request, 'blogs/index.html', {
-        'blogs': blogs,
-        'users': users,
-    })
+    return HttpResponseRedirect(reverse('blogs:index'))
+    # return render(request, 'blogs/index.html', {
+    #     'blogs': blogs,
+    #     'users': users,
+    # })
 
 def post_blog(request):
-    user = request.user
-    title = request.POST['title']
-    body = request.POST['blog_body']
-    category = get_object_or_404(Category, name=request.POST['category'])
-    blog = Blog(title=title, content=body, category=category, author=user, pub_date=timezone.now())
-
-    # save cover image
-    if 'cover_photo' in request.FILES:
-        cover_photo = request.FILES['cover_photo']
-        fs = FileSystemStorage()
-        filename = fs.save(cover_photo.name, cover_photo)
-        blog.cover_photo = cover_photo
-
-    # save hashtags
-    blog.save()
-    tags = [i for i in body.split() if i[0] == '#']
-    for tag in tags:
-        print(tags)
-        print(blog)
-        if Hashtag.objects.filter(name=tag[1:]).count() == 0:
-            hashtag = Hashtag(name=tag[1:])
-            hashtag.save()
+    if request.method == 'GET':
+        if not request.user.is_authenticated:
+            return render(request, 'blogs/login.html', {'error_message': 'Please log in first to post a blog'})
         else:
-            hashtag = Hashtag.objects.get(name=tag[1:])
+            return render(request, 'blogs/home.html')
+    else:
+        user = request.user
+        title = request.POST['title']
+        body = request.POST['blog_body']
+        category = get_object_or_404(Category, name=request.POST['category'])
+        blog = Blog(title=title, content=body, category=category, author=user, pub_date=timezone.now())
 
-        hashtag.blog.add(blog)
+        # save cover image
+        if 'cover_photo' in request.FILES:
+            cover_photo = request.FILES['cover_photo']
+            fs = FileSystemStorage()
+            filename = fs.save(cover_photo.name, cover_photo)
+            blog.cover_photo = cover_photo
 
-    return HttpResponseRedirect(reverse('blogs:view_blog', args=(user.username,blog.id)))
+            # save hashtags
+            blog.save()
+            tags = [i for i in body.split() if i[0] == '#']
+            for tag in tags:
+                print(tags)
+                print(blog)
+                if Hashtag.objects.filter(name=tag[1:]).count() == 0:
+                    hashtag = Hashtag(name=tag[1:])
+                    hashtag.save()
+                else:
+                    hashtag = Hashtag.objects.get(name=tag[1:])
+
+                    hashtag.blog.add(blog)
+
+                    return HttpResponseRedirect(reverse('blogs:view_blog', args=(user.username,blog.id)))
+
 
 def view_blog(request, user_name, blog_id):
     user_info = get_object_or_404(User, username=user_name)
@@ -149,6 +173,7 @@ def view_blog(request, user_name, blog_id):
         'blog_info': get_object_or_404(Blog, pk=blog_id),
         'author': user_name,
         'blogs': blogs,
+        'user': user_info,
         'about': get_object_or_404(Profile, user=user_info).about,
     })
 

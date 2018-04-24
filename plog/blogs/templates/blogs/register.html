@@ -26,10 +26,27 @@
       <div class="row">
         <form class="col s12" action="{% url 'blogs:register' %}" method="post">
           {% csrf_token %}
+          {% for field in form %}
+          <div class="row">
+            {% if field.errors %}
+            <p style="color:red;text-align:center">{{ error_message }}</p>
+            {% endif %}
+            <div class="input-field col s12">
+              {{ field }}
+              {{ field.label_tag }}
+            </div>
+          </div>
+          {% endfor %}
+          <div class="wrapper">
+            <button type="submit" class="btn waves-effect waves-light">Register</button>
+          </div>
+        </form>
+        <!-- <form class="col s12" action="{% url 'blogs:register' %}" method="post">
+          {% csrf_token %}
           <div class="row">
             <div class="input-field col s12">
-              <input id="username" type="text" class="validate" name="name">
-              <label for="username">Name</label>
+              <input id="name" type="text" class="validate" name="name">
+              <label for="name">Name</label>
             </div>
           </div>
           <div class="row">
@@ -46,7 +63,7 @@
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <textarea id="about" name='about' class="materialize-textarea" placeholder="Say Something about yourself" name="blog_body" data-length="500"></textarea>
+              <textarea id="about" name='about' class="materialize-textarea" placeholder="Say Something about yourself" data-length="500"></textarea>
               <label for="about">About you</label>
             </div>
           </div>
@@ -63,9 +80,9 @@
             </div>
           </div>
           <div class="wrapper">
-            <button type="submit" class="btn waves-effect waves-light" name="button">Register</button>
+            <button type="submit" class="btn waves-effect waves-light">Register</button>
           </div>
-        </form>
+        </form> -->
       </div>
     </div>
 

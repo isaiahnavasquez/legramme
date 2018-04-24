@@ -152,7 +152,7 @@
               name = data['tags_name'][index].name
               url = "{% url 'blogs:hashtag' 'hello' %}"
               url = url.replace('hello', name)
-              resultsTags.append("<p><a href='" + url + "'>" + name + "</a></p>")
+              resultsTags.append("<p><a href='" + url + "'>#" + name + "</a></p>")
             }
           } else {
             $('#resultsTags').hide()

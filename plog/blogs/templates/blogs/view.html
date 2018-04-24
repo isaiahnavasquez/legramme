@@ -35,7 +35,9 @@
       <!-- <h3 style="text-align:center">Title Kemiroot</h3> -->
       <div class="profile-info">
         <div style="position:sticky;top:100px">
-          <div class="profile-circle"></div>
+          <div class="profile-circle">
+            <img src="{{ user.profile.default_pic.url }}">
+          </div>
           <h5><a href="#">@{{ author }}</a></h5>
           <p>{{ about }}</p>
           <hr style="width:200px;">
