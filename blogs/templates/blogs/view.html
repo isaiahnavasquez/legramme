@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>Plogs - Picture Logs</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blogs/index.css' %}">
+    <link rel="stylesheet" href="{% static 'blogs/view.css' %}">
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <p class="title"><a href="{% url 'blogs:index' %}">Blogs</a></p>
+      {% if user.is_authenticated %}
+        <div class="buttons">
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:home' %}">Create</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:profile' user.username %}">Profile</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:logout' %}">Logout</a>
+        </div>
+      {% else %}
+        <div class="buttons">
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:login' %}">Login</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:register' %}">Register</a>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="content">
+      <!-- <h3 style="text-align:center">Title Kemiroot</h3> -->
+      <div class="profile-info">
+        <div style="position:sticky;top:100px">
+          <div class="profile-circle">
+            <img src="{{ user.profile.default_pic.url }}">
+          </div>
+          <h5><a href="#">@{{ author }}</a></h5>
+          <p>{{ about }}</p>
+          <hr style="width:200px;">
+          {% for blog_item in blogs %}
+          <a href="{% url 'blogs:view_blog' author blog_item.id %}">< {{ blog_item.title }} ></a><br>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="blog-info">
+        <div class="blog-image">
+          <div class="parallax-container">
+            <div class="parallax">
+              <img src="{{ blog_info.cover_photo.url }}" height="600px" width="300px">
+            </div>
+          </div>
+        </div>
+        <div style="padding:20px" class="blog-content">
+          <h3 style="text-align:left">{{ blog_info.title }}</h3>
+          <p id="blogContent">{{ blog_info.content|linebreaksbr }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">All Rights Reserved. Charot.</div>
+  </body>
+  <script type="text/javascript">
+    var elem = document.querySelector('.parallax');
+    var instance = M.Parallax.init(elem, {});
+    var url = "{% url 'blogs:hashtag' 'hello' %}"
+
+    // Or with jQuery
+
+    $(document).ready(function(){
+      $('.parallax').parallax();
+    });
+
+    function hashtag() {
+      content = $('#blogContent').text();
+      console.log(content);
+      words = content.split(' ');
+      output = '';
+      for(word in words){
+        word = words[word]
+        if (word[0] == '#') {
+          tag = '<a href=\'' + url.replace('hello', word.slice(1,)) + '\'>' + word + '</a>';
+          output += tag + ' ';
+        } else {
+          output += word + ' ';
+        }
+      }
+      $('#blogContent').html(output);
+    }
+
+    $('#blogContent').ready(hashtag());
+  </script>
+</html>

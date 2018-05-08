@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>Plogs - Picture Logs</title>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blogs/index.css' %}">
+    <link rel="stylesheet" href="{% static 'blogs/login.css' %}">
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <p class="title"><a href="{% url 'blogs:index' %}">Blogs</a></p>
+    </div>
+
+    <div class="content">
+      <h3 style="text-align:center">Login</h3>
+      {% if error_message %}
+        <p style="color:red;text-align:center">{{ error_message }}</p>
+      {% endif %}
+      <div class="row">
+        <form class="col s12" action="{% url 'blogs:login' %}" method="post">
+          {% csrf_token %}
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="username" type="text" class="validate" name="username">
+              <label for="username">Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="password" type="password" class="validate" name="password">
+              <label for="password">Password</label>
+            </div>
+          </div>
+          <div class="wrapper">
+            <button type="submit" class="btn waves-effect waves-light" name="button">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <br><br>
+    <div class="footer">All Rights Reserved. Charot.</div>
+  </body>
+</html>

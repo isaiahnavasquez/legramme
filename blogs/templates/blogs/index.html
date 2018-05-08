@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>Plogs - Picture Logs</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blogs/index.css' %}">
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <p class="title"><a href="{% url 'blogs:index' %}">Blogs</a></p>
+      {% if user.is_authenticated %}
+        <div class="buttons">
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:profile' user.username %}">Profile</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:logout' %}">Logout</a>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if not user.is_authenticated %}
+      <div class="authentication">
+        <br>
+        <h6>Welcome to Blogs</h6>
+        <p><small>Where things that matter are shared.</small></p>
+        <div class="buttons">
+          <a href="{% url 'blogs:login' %}" class="waves-effect waves-light btn teal lighten-4">Login</a>
+          <a href="{% url 'blogs:register' %}" class="waves-effect waves-light btn teal lighten-4">Register</a>
+        </div><br>
+      </div>
+    {% else %}
+      <div class="authentication">
+        <br>
+        <div class="profile-circle">
+          <img src="{{ user.profile.default_pic.url }}" alt="">
+        </div>
+        <h4 text-align="center">{{ user.first_name }}</h4>
+        <h6 text-align="center">@{{ user.username }}</h6>
+        <p>{{ about_text }}</p>
+      </div>
+      <div class="buttons">
+        <a href="{% url 'blogs:home' %}" class="waves-effect waves-light btn teal lighten-4">Add Blog</a>
+      </div><br>
+    {% endif %}
+
+    <div class="content">
+      <h5 style="text-align:center">Go, Search for it</h5>
+      <div class="search-field">
+        <form method="post" id="searchForm" data-search-text="{% url 'blogs:search_site' %}">
+          {% csrf_token %}
+          <input name="search_text" type="text" id="search">
+        </form>
+      </div>
+      <div class="results" style="text-align:center" id="results">
+        <div class="results-data" id="resultsBlogs">
+
+        </div>
+        <div class="results-data" id="resultsTags">
+
+        </div>
+        <div class="results-data" id="resultsUsers">
+
+        </div>
+      </div>
+
+      <br><br>
+      <h3>Editor's Choice</h3>
+      <div class="wrapper">
+        {% for blog in blogs|dictsortreversed:"pub_date"|slice:":4" %}
+          <div class="grid">
+            <div class="image z-depth-1">
+              <img src="{{ blog.cover_photo.url }}" alt="">
+            </div>
+            <p><a href="{% url 'blogs:view_blog' blog.author blog.id %}">{{ blog.title }}</a></p>
+            <small style="margin-top:-20px;">{{ blog.content|slice:":100" }}...</small>
+          </div>
+        {% empty %}
+          <h5 style="margin: 0 auto">{ No Blogs Yet }</h5>
+        {% endfor %}
+      </div>
+
+      <br><br><br> <hr>
+      <h3>Recent Authors</h3>
+      <div class="wrapper">
+        {% for user in users|dictsortreversed:"date_joined"|slice:":4" %}
+          <div class="grid grid-author">
+            <div class="image-circle z-depth-1">
+              <img src="{{ user.profile.default_pic.url }}" alt="">
+            </div>
+            <p><a href="{% url 'blogs:profile' user.username %}">{{ user.first_name }}</a></p>
+            <small style="margin-top:-20px;">{{ user.profile.about }}</small>
+          </div>
+        {% empty %}
+          <h5 style="margin: 0 auto">{ No Blogs Yet }</h5>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">All Rights Reserved. Charot.</div>
+  </body>
+  <script type="text/javascript">
+    form = $('#searchForm');
+    $('#results').hide()
+
+    $('#search').bind('input', function() {
+      text = $(this).val()
+
+      if (text.length > 0) {
+        $('#results').show()
+      } else {
+        $('#results').hide()
+      }
+
+      $.ajax({
+        url: form.attr('data-search-text'),
+        data: form.serialize(),
+        dataType: 'json',
+        success: function(data) {
+          resultsBlogs = $('#resultsBlogs')
+          resultsTags = $('#resultsTags')
+          resultsUsers = $('#resultsUsers')
+
+          if (data['blogs_title'].length > 0) {
+            resultsBlogs.show()
+            resultsBlogs.empty()
+            resultsBlogs.append("<h5>Blogs</h5>")
+            for(index in data['blogs_title']) {
+              title = data['blogs_title'][index].title
+              author = data['blogs_title'][index].author
+              id = data['blogs_title'][index].id
+              url = "{% url 'blogs:view_blog' 'hello' 1 %}"
+              url = url.replace('hello', author)
+              url = url.replace(1, id)
+              resultsBlogs.append("<p><a href='" + url + "'>" + title + "</a></p>")
+            }
+          } else {
+            $('#resultsBlogs').hide()
+          }
+
+          if (data['tags_name'].length > 0) {
+            resultsTags.show()
+            resultsTags.empty()
+            resultsTags.append("<h5>Hashtags</h5>")
+            for(index in data['tags_name']) {
+              name = data['tags_name'][index].name
+              url = "{% url 'blogs:hashtag' 'hello' %}"
+              url = url.replace('hello', name)
+              resultsTags.append("<p><a href='" + url + "'>#" + name + "</a></p>")
+            }
+          } else {
+            $('#resultsTags').hide()
+          }
+
+          if (data['users_username'].length > 0) {
+            resultsUsers.show()
+            resultsUsers.empty()
+            resultsUsers.append("<h5>Users</h5>")
+            for(index in data['users_username']) {
+              username = data['users_username'][index].username
+              url = "{% url 'blogs:profile' 'hello' %}"
+              url = url.replace('hello', username)
+              resultsUsers.append("<p><a href='" + url + "'>@" + username + "</a></p>")
+            }
+          } else {
+            $('#resultsUsers').hide()
+          }
+
+        }
+      })
+    })
+  </script>
+</html>

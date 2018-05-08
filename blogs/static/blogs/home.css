@@ -1,0 +1,46 @@
+.header a {
+  color: white;
+  text-decoration: none; /* no underline */
+}
+
+.content .profile-circle {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  background-color: #4f9a94;
+  margin: 20px auto 20px auto;
+}
+
+.content .profile-circle img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%
+}
+
+.content .container {
+  width: 800px;
+}
+
+.content .profile-info {
+  text-align: center;
+}
+
+.wrapper-btn {
+  text-align: right;
+}
+
+.content a {
+  color: #4f9a94;
+}
+
+.cover-image {
+  height: 300px;
+  width: 100%;
+  background-color: #4f9a94;
+  margin-bottom: 20px;
+}
+
+.cover-image img {
+  height: 300px;
+  width: 100%;
+}

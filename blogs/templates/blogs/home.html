@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <title>Plogs - Picture Logs</title>
+    <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'blogs/index.css' %}">
+    <link rel="stylesheet" href="{% static 'blogs/home.css' %}">
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <p class="title"><a href="{% url 'blogs:index' %}">Blogs</a></p>
+      {% if user.is_authenticated %}
+        <div class="buttons">
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:home' %}">Create</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:profile' user.username %}">Profile</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:logout' %}">Logout</a>
+        </div>
+      {% else %}
+        <div class="buttons">
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:login' %}">Login</a>
+          <a class="waves-effect waves-teal btn-flat" href="{% url 'blogs:register' %}">Register</a>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="content">
+      {% if message %}
+        <p style="text-align:center">{{ message }}</p>
+      {% endif %}
+      <div class="container">
+        <div class="row">
+          <div class="col s4 profile-info">
+            <div>
+              <div style="position:sticky;top:100px;">
+                <div class="profile-circle">
+                  <img src="{{ user.profile.default_pic.url }}" alt="">
+                </div>
+                <h5>{{ user.first_name }}</h5>
+                <br> <hr style="width:100px"> <br>
+                {% for blog in blogs %}
+                <a href="{% url 'blogs:view_blog' user.username blog.id %}">< {{ blog.title }} ></a><br>
+                {% empty %}
+                <p>No blogs yet</p>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="col s8 z-depth-1 paper-material">
+            <h4>Post a Blog</h4>
+            <div class="row">
+              <form class="col s12" action="{% url 'blogs:post_blog' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                  <div class="col s12 cover-image" style="padding:0;">
+                    <img id="coverPhoto">
+                  </div>
+                  <h6 style="padding-left:10px;">Upload a Cover Photo</h6>
+                  <div class="file-field input-field" style="padding:10px;">
+                    <div class="btn">
+                      <span>Select</span>
+                      <input type="file" id="fileSelector" onchange="displayImage(this)" name="cover_photo">
+                    </div>
+                    <div class="file-path-wrapper">
+                      <input class="file-path validate" type="text">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <input id="title" type="text" class="validate" placeholder="A great title" name='title'>
+                    <label for="title">Title</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <textarea id="blogBody" name='blog_body' class="materialize-textarea" placeholder="Lorem Ipsum" name="blog_body" data-length="500"></textarea>
+                    <label for="blogBody">Body</label>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <select id="categories" name='category'>
+                      <option value="" disabled selected>Choose your option</option>
+                    </select>
+                    <label>Category</label>
+                  </div>
+                </div>
+                <div class="wrapper-btn">
+                  <button class="btn waves-effect waves-light" type="submit" name="action">Post</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <!-- <div class="footer">All Rights Reserved. Charot.</div> -->
+  </body>
+  <script type="text/javascript">
+    M.textareaAutoResize($('#blogBody'));
+
+    var elem = document.querySelector('select');
+    var instance = M.FormSelect.init(elem, {});
+
+    categories = [
+      'Technology',
+      'Entertainment',
+      'Business',
+      'Finance',
+      'Food',
+    ]
+
+    for(i = 0; i < categories.length; i++){
+      $('#categories').append("<option value='" + categories[i] + "'>" + categories[i] + "</option>");
+    }
+
+    $(document).ready(function(){
+      $('select').formSelect();
+    });
+
+    function displayImage(input) {
+      if (input.files && input.files[0]){
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+          $('#coverPhoto').attr('src', e.target.result)
+        }
+
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+  </script>
+</html>
