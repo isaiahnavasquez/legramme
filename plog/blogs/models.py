@@ -24,7 +24,7 @@ class Blog(models.Model):
     content = models.TextField()
     pub_date = models.DateTimeField('date published')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, related_name="blogs", on_delete=models.CASCADE)
     cover_photo = models.ImageField(upload_to='images/blog_covers/', default='images/default/cover_default.jpg')
 
     def __str__(self):
