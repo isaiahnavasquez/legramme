@@ -1,0 +1,21 @@
+<form (ngSubmit)="loginUser($event)">
+  <div class="container">
+    <p class="title">Login</p>
+    <div class="input-field">
+      <input id="username" type="text" class="validate" id="username">
+      <label for="username">Username</label>
+    </div>
+    <div class="input-field">
+      <input id="password" type="password" class="validate" id="password">
+      <label for="password">Password</label>
+    </div>
+    <br>
+  </div>
+  <div class="wrapper">
+    <button class="button" type="submit">Submit</button>
+  </div>
+</form>
+
+<div class="errors">
+  {{ errors }}
+</div>
