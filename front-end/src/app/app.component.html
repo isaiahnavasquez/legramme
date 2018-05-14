@@ -1,7 +1,12 @@
-<div class="navigation">
+<div class="navigation" *ngIf="loggedIn">
   <a routerLink="/home">Home</a>
   <a routerLink="/profile">Profile</a>
   <a routerLink="/create-blog">Create</a>
+</div>
+
+<div class="welcome" *ngIf="!loggedIn">
+  <br><br>
+  <h4>Welcome to Grammers</h4>
 </div>
 
 <router-outlet></router-outlet>

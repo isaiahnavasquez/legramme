@@ -16,3 +16,8 @@ a {
 a:focus {
   border-bottom: 2px solid #442c2e;
 }
+
+.welcome {
+  text-align: center;
+  color: white;
+}
