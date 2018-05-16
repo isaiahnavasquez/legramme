@@ -24,6 +24,10 @@ export class BlogService {
     }
     
     return this.http.get<Blog[]>('http://127.0.0.1:8000/api/blogs', httpOptions);
+  };
+  
+  getBlog(id): Observable<Blog> {
+    return this.http.get<Blog>('http://127.0.0.1:8000/api/blogs/' + id);
   }
   
 }

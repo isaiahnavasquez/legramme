@@ -15,6 +15,8 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CreateBlogComponent } from './create-blog/create-blog.component';
 import { LoginComponent } from './login/login.component';
+import { BlogBlockComponent } from './blog-block/blog-block.component';
+import { BlogListComponent } from './blog-list/blog-list.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { LoginComponent } from './login/login.component';
     HomeComponent,
     ProfileComponent,
     CreateBlogComponent,
-    LoginComponent
+    LoginComponent,
+    BlogBlockComponent,
+    BlogListComponent
   ],
   imports: [
     BrowserModule,

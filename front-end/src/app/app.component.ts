@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatSidenav } from '@angular/material/';
 import { AuthService } from './auth.service';
-import { Router } from '@angular/router'
+import { Router, ActivatedRoute, Event, NavigationEnd } from '@angular/router'
 
 @Component({
   selector: 'app-root',
@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   
   title = 'app';
   loggedIn: boolean = false;
+  activeRoute: string = '';
   
   constructor (
     private authService: AuthService,
@@ -20,7 +21,17 @@ export class AppComponent implements OnInit {
   ) { }
   
   ngOnInit() {
-    this.authService.isLoggedIn();
+    this.isLoggedIn();
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        this.activeRoute = event.url;
+        console.log(this.activeRoute)
+      }
+    });
+  }
+  
+  isLoggedIn() {
+    this.loggedIn = this.authService.isLoggedIn();
   }
   
 }
