@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../data-classes';
+import { User, Profile } from '../data-classes';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class UsersListComponent implements OnInit {
 
   getUsers() {
     this.authService.getUsers().subscribe(data => {
-      console.log(data);
+      this.users = data.slice(0,6)
     });
   }
 

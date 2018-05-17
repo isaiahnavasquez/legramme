@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   constructor (
     private authService: AuthService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) { }
   
   ngOnInit() {

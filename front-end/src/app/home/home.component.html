@@ -1,11 +1,10 @@
 <div class="my-tabs">
   <div class="my-tab" 
-    [class.selected]="selected === 'blogs'"
+    [class.selected]="selectedPage === 'blogs'"
     (click)="getBlogs()">blogs</div>
   <div class="my-tab" 
-    [class.selected]="selected === 'users'"
+    [class.selected]="selectedPage === 'users'"
     (click)="getUsers()">users</div>
 </div>
 
-<app-users-list *ngIf="selected === 'users'"></app-users-list>
-<app-blog-list *ngIf="selected === 'blogs'"></app-blog-list>
+<router-outlet></router-outlet>

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { User } from '../data-classes';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-user-block',
@@ -7,9 +9,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserBlockComponent implements OnInit {
 
-  constructor() { }
+  @Input() user: User;
+  about: string = ''
+
+  constructor(
+    private authService: AuthService,
+  ) { }
 
   ngOnInit() {
+    this.initializeData();
+  }
+  
+  initializeData() {
+    this.authService.getProfile(this.user.id).subscribe(data => {
+      this.about = data['about']
+    })
   }
 
 }

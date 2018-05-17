@@ -15,3 +15,9 @@ export class User {
   first_name: string;
   blogs: number[];
 }
+
+export class Profile {
+  user_id: number;
+  default_pic: string;
+  about: string;
+}

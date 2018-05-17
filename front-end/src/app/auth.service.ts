@@ -3,7 +3,7 @@ import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular
 import { Observable, of, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
-import { User } from './data-classes';
+import { User, Profile } from './data-classes';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +48,15 @@ export class AuthService {
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>('http://127.0.0.1:8000/api/users');
+  }
+  
+  // additional useful information related to user (profile)
+  getProfiles(): Observable<Profile[]> {
+    return this.http.get<Profile[]>('http://127.0.0.1:8000/api/profiles');
+  }
+  
+  getProfile(id: number): Observable<User> {
+    return this.http.get<User>('http://127.0.0.1:8000/api/profile/' + id);
   }
 
 }
