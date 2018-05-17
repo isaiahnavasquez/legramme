@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router'
+import { Router } from '@angular/router';
+import { User } from './data-classes';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,10 @@ export class AuthService {
       this.router.navigate(['/login']);
     }
     return isLoggedIn
+  }
+
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>('http://127.0.0.1:8000/api/users');
   }
 
 }

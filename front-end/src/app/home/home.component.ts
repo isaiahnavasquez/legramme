@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  selected: string = 'blogs';
+  selected: string = 'users';
 
   constructor(
     private blogService: BlogService,
@@ -19,9 +19,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.blogService.getBlogs().subscribe(data => {
-      console.log(data)
-    });
+    
   }
   
   getBlogs() {
@@ -30,7 +28,6 @@ export class HomeComponent implements OnInit {
   
   getUsers() {
     this.selected = 'users';
-    
   }
 
 }

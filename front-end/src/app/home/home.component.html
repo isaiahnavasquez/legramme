@@ -7,4 +7,5 @@
     (click)="getUsers()">users</div>
 </div>
 
-<app-blog-list></app-blog-list>
+<app-users-list *ngIf="selected === 'users'"></app-users-list>
+<app-blog-list *ngIf="selected === 'blogs'"></app-blog-list>

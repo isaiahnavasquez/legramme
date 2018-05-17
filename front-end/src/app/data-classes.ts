@@ -8,3 +8,10 @@ export class Blog {
   cover_photo: string;
   user: string;
 }
+
+export class User {
+  id: number;
+  username: string;
+  first_name: string;
+  blogs: number[];
+}

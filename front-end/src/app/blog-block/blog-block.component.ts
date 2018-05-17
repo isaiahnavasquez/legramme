@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { BlogService } from '../blog.service';
 import { Blog } from '../data-classes'
 
@@ -7,9 +7,10 @@ import { Blog } from '../data-classes'
   templateUrl: './blog-block.component.html',
   styleUrls: ['./blog-block.component.css']
 })
+
 export class BlogBlockComponent implements OnInit {
 
-  blog: Blog = new Blog()
+  @Input() blog: Blog = new Blog();
 
   constructor(
     private blogService: BlogService,
