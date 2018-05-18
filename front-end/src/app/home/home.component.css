@@ -1,0 +1,23 @@
+.my-tabs {
+  display: flex;
+  justify-content: center;
+}
+
+.my-tab {
+  margin: 10px;
+  padding: 5px 18px;
+  font-size: 20px;
+  color: #8c554b;
+  border: 3px solid #8c554b;
+  border-radius: 20px;
+}
+
+.my-tab:hover {
+  background-color: #8c554b;
+  color: white;
+}
+
+.selected {
+  background-color: #8c554b;
+  color: white;
+}

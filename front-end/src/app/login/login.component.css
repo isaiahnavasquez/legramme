@@ -1,0 +1,58 @@
+.container {
+  width: 400px;
+  background-color: white;
+  color: #705557;
+  text-align: center;
+  padding: 0 40px;
+  padding-bottom: 20px;
+  border-radius: 5px;
+}
+
+.container .input-field label {
+  color: #705557;
+}
+
+.container .input-field input[type=text]:focus {
+  border-bottom: 1px solid #705557;
+  box-shadow: 0 0 0 0 #705557;
+}
+ 
+.container .input-field input[type=password] {
+  color: #705557;
+}
+
+.container .input-field input[type=password]:focus {
+  border-bottom: 1px solid #705557;
+  box-shadow: 0 0 0 0 #705557;
+}
+
+.wrapper {
+  width: 100%;
+  text-align: center;
+}
+
+button {
+  margin-top: 40px;
+  background-color: #ffdcd1;
+  color: #6f5766;
+  border: 3px solid #caa99f;
+  padding: 10px 20px;
+  border-radius: 15px;
+} 
+
+button:hover {
+  background-color: #caa99f;
+  color: white; 
+} 
+
+.title {
+  font-size: 30px;
+  padding: 10px;
+  padding-top: 30px;
+}
+
+.errors {
+  color: red;
+  margin: 20px;
+  text-align: center;
+}

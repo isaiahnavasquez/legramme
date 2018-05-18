@@ -1,0 +1,10 @@
+<div class="my-tabs">
+  <div class="my-tab" 
+    [class.selected]="selectedPage === 'blogs'"
+    (click)="getBlogs()">blogs</div>
+  <div class="my-tab" 
+    [class.selected]="selectedPage === 'users'"
+    (click)="getUsers()">users</div>
+</div>
+
+<router-outlet></router-outlet>
