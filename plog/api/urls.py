@@ -13,6 +13,9 @@ urlpatterns = [
     path('users/<int:pk>', views.UserDetail.as_view()),
     path('categories/', views.CategoryList.as_view()),
     path('profile/<int:pk>', views.ProfileDetail.as_view()),
+    path('login/', views.AuthLogin.as_view()),
+    path('profiles/', views.ProfileList.as_view()),
+    path('auth-token/', views.CustomObtainAuthToken.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

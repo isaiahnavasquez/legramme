@@ -3,8 +3,33 @@ from api.serializers import BlogSerializer, CategorySerializer, HashtagSerialize
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework import status, permissions
 from django.contrib.auth.models import User
+
+# user token imports
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+
+# get auth token and return user info
+class CustomObtainAuthToken(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
+        token = Token.objects.get(key=response.data['token'])
+        return Response({'token': token.key, 'id': token.user_id})
+
+class AuthLogin(APIView):
+    authentication_classes = (SessionAuthentication, BasicAuthentication)
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, format=None):
+        content = {
+            'user': unicode(request.user),
+            'auth': unicode(request.auth),
+        }
+
+        return Response(content)
 
 class BlogList(APIView):
     """
@@ -60,6 +85,8 @@ class UserList(APIView):
     """
     List User information
     """
+    permission_classes = (AllowAny,)
+    
     def get(self, request, format=None):
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
@@ -69,6 +96,8 @@ class UserDetail(APIView):
     """
     Retrieve single User instance
     """
+    permission_classes = (AllowAny,)
+    
     def get_object(self, pk):
         try:
             return User.objects.get(pk=pk)
@@ -90,10 +119,21 @@ class CategoryList(APIView):
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)
 
+class ProfileList(APIView):
+    """
+    Retrieve useful user information with related objects
+    """
+    
+    def get(self, request, format=None):
+        profiles = Profile.objects.all()
+        serializer = ProfileSerializer(profiles, many=True)
+        return Response(serializer.data)
+
 class ProfileDetail(APIView):
     """
     Retrieve a user's extended model reference
     """
+    permission_classes = (AllowAny,)
 
     def get_object(self, pk):
         try:

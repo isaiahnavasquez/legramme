@@ -20,15 +20,15 @@ class HashtagSerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 class UserSerializer(serializers.ModelSerializer):
-    blogs = serializers.PrimaryKeyRelatedField(many=True, queryset=Blog.objects.all())
+    blogs = serializers.PrimaryKeyRelatedField(queryset=Blog.objects.all(),many=True)
     
     class Meta:
         model = User
         fields = ('id', 'username', 'first_name', 'blogs')
 
 class ProfileSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=Profile.objects.all())
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
     
     class Meta:
         model = Profile
-        fields = ('user', 'default_pic', 'about')
+        fields = ('id', 'user', 'default_pic', 'about', 'user')

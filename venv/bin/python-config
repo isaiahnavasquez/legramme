@@ -1,4 +1,4 @@
-#!/home/isaiah/Documents/Sandbox/codex/grammer-codex/django-blog/venv/bin/python
+#!/home/isaiah/Documents/Sandbox/django-blog/venv/bin/python
 
 import sys
 import getopt

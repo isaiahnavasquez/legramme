@@ -5,7 +5,7 @@ from django.conf import settings
 
 # Create your models here.
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user')
     default_pic = models.ImageField(upload_to='images/profiles/', default='images/default/empty-profile.png')
     about = models.CharField(max_length=100)
 
