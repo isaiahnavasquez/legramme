@@ -2,6 +2,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.urlpatterns import format_suffix_patterns
+from rest_framework.authtoken.views import ObtainAuthToken
 from . import views
 
 app_name = 'api'
@@ -13,7 +14,7 @@ urlpatterns = [
     path('users/<int:pk>', views.UserDetail.as_view()),
     path('categories/', views.CategoryList.as_view()),
     path('profile/<int:pk>', views.ProfileDetail.as_view()),
-    path('login/', views.AuthLogin.as_view()),
+    path('login/', views.ObtainAuthToken.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

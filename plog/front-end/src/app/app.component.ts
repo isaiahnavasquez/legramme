@@ -29,11 +29,12 @@ export class AppComponent implements OnInit {
     // and routes the app accordingly
     this.isLoggedIn();
     
-    // this.router.events.subscribe((event: Event) => {
-    //   if (event instanceof NavigationEnd) {
-    //     this.activeRoute = event.url;
-    //   }
-    // });
+    // NOTE: checks the selected tab-page
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        this.activeRoute = event.url;
+      }
+    });
   }
   
   isLoggedIn() {
