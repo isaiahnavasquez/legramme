@@ -93,7 +93,7 @@ class UserDetail(APIView):
     Retrieve single User instance
     """
 
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     def get_object(self, pk):
         try:
             return User.objects.get(pk=pk)
@@ -119,7 +119,7 @@ class ProfileDetail(APIView):
     """
     Retrieve a user's extended model reference
     """
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
     def get_object(self, pk):
         try:

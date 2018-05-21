@@ -14,7 +14,7 @@ export class BlogService {
     private http: HttpClient,
     private authService: AuthService,
   ) { }
-  
+
   getBlogs(): Observable<Blog[]> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -22,12 +22,12 @@ export class BlogService {
         'Authorization': this.authService.getAuthToken()
       })
     }
-    
-    return this.http.get<Blog[]>('http://127.0.0.1:8000/api/blogs', httpOptions);
+
+    return this.http.get<Blog[]>('http://127.0.0.1:8000/api/blogs/', httpOptions);
   };
-  
+
   getBlog(id): Observable<Blog> {
     return this.http.get<Blog>('http://127.0.0.1:8000/api/blogs/' + id);
   }
-  
+
 }
